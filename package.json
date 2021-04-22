@@ -1,0 +1,15 @@
+{
+    "name": "hent-nasdaq-kurser",
+    "description": "Henter kurser på 0.5, 1.0, 1.5% realkredit",
+    "repository": {"url": "boeschricht/docker-puppeteer"},
+    "license": "GPL-3.0-or-later",
+    "dependencies": {
+        "log": "latest", 
+        "log-node": "latest"
+
+    },
+    "engines": {},
+    "scripts": {
+        "start": "node hent-nasdaq-kurser/hent-nasdaq-kurser.js"
+    }
+}
