@@ -12,14 +12,20 @@ dpkg -i dumb-init_*.deb && rm -f dumb-init_*.deb && \
 apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 RUN yarn global add puppeteer@1.20.0 && yarn cache clean
+RUN yarn global add log && yarn cache clean
+RUN yarn global add log-node && yarn cache clean
 
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
-
 ENV PATH="/app:/tools:${PATH}"
+ENV LOG_LEVEL="debug"
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser
 
 COPY --chown=pptruser:pptruser ./tools /tools
+
+COPY package*.json ./
+
+RUN npm install
 
 # Set language to UTF8
 ENV LANG="C.UTF-8"
@@ -45,4 +51,6 @@ ENTRYPOINT ["dumb-init", "--"]
 
 # CMD ["/usr/local/share/.config/yarn/global/node_modules/puppeteer/.local-chromium/linux-526987/chrome-linux/chrome"]
 
-CMD ["node", "index.js"]
+#  ENV DEBUG="puppeteer:*" 
+ ENV DEBUG_COLORS=true 
+ CMD ["node", "--unhandled-rejections=strict", "hent-nasdaq-kurser.js"]
