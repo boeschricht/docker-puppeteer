@@ -15,7 +15,7 @@ RUN yarn global add puppeteer@1.20.0 && yarn cache clean
 
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
 
-ENV PATH="/tools:${PATH}"
+ENV PATH="/app:/tools:${PATH}"
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser
 
