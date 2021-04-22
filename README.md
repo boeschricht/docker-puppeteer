@@ -11,16 +11,16 @@ and hent-nasdaq-kurser script installed.
 ## install & build
 
 ```
-mkdir -p /volume1/usr/local/src/
-cd  /volume1/usr/local/src
-rm -R /volume1/usr/local/src/docker-puppeteer
+mkdir -p /volume1/src/
+cd  /volume1/src
 git clone https://github.com/boeschricht/docker-puppeteer.git
-docker build /volume1/usr/local/src/docker-puppeteer -t docker-puppeteer:latest
+sudo sh/build.sh
 
 ```
 
 ## run
 
 ```
+sudo sh/run.sh
 
 ```
