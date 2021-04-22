@@ -36,7 +36,8 @@ function Date_toISOStringLocal(d) {
     const browser = await puppeteer.launch({
         args: [
             '--no-sandbox',
-            '--disable-setuid-sandbox'
+            '--disable-setuid-sandbox',
+            '--enable-logging=stderr', '--v=1'
         ]    
     });    
 
@@ -45,12 +46,13 @@ function Date_toISOStringLocal(d) {
 
     try {
         log.info('Goto url1 ...');
-        await page.goto(url1, {waitUntil: 'networkidle2', timeout: navigationTimeout});
-        
+        await page.goto('http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE05NYK01EA53', {waitUntil: 'domcontentloaded', timeout: 0});
+        log.info('her ...');
+       
     } catch (error) {
         log.error('Could not goto url1.' + error);
     }
-
+return
     try {
         log.info('Goto url2 ...');
         await page.goto(url2, {waitUntil: 'networkidle2', timeout: navigationTimeout});
