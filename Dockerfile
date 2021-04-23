@@ -1,5 +1,7 @@
 FROM node:12-slim
 
+# Configure app options
+
 RUN apt-get update && \
 apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
@@ -17,7 +19,6 @@ RUN yarn global add log-node && yarn cache clean
 
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
 ENV PATH="/app:/tools:${PATH}"
-ENV LOG_LEVEL="debug"
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser
 
