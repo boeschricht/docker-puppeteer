@@ -24,14 +24,15 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser
 
 COPY --chown=pptruser:pptruser ./tools /tools
 
-COPY package*.json ./
 
 RUN npm install
+RUN npm install -g nodemon
 
 # Set language to UTF8
 ENV LANG="C.UTF-8"
 
 WORKDIR /app
+COPY package*.json ./
 
 # Add user so we don't need --no-sandbox.
 RUN mkdir /screenshots \
@@ -47,6 +48,7 @@ USER pptruser
 
 # --cap-add=SYS_ADMIN
 # https://docs.docker.com/engine/reference/run/#additional-groups
+EXPOSE 3000
 
 ENTRYPOINT ["dumb-init", "--"]
 
@@ -54,4 +56,4 @@ ENTRYPOINT ["dumb-init", "--"]
 
 #  ENV DEBUG="puppeteer:*" 
  ENV DEBUG_COLORS=true 
- CMD ["node", "--unhandled-rejections=strict", "hent-nasdaq-kurser.js"]
+ CMD ["npm", "start"]

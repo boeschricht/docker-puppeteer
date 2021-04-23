@@ -77,7 +77,7 @@ var alasql = require(`alasql`)
     ]
 
     alasql("CREATE TABLE dataset (`URL ID` string, `URL beskrivelse` string, `URL adresse` string, `Dato` date, `Tid` time, `Kurs` number, `Fejl` string)");
-    alasql("INSERT INTO dataset SELECT * FROM ?", [values])
+    alasql("SELECT * INTO dataset FROM ?", [values])
     var res = alasql("Select * FROM dataset")
     console.info(res)
     
