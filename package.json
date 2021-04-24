@@ -6,12 +6,10 @@
     },
     "license": "GPL-3.0-or-later",
     "dependencies": {
-        "log": "latest",
-        "log-node": "latest",
         "alasql": "latest"
     },
     "engines": {},
     "scripts": {
-        "start": "nodemon --inspect-brk=0.0.0.0 /app/hent-nasdaq-kurser.js"
+        "start": "node --inspect-brk=0.0.0.0 hent-nasdaq-kurser.js"
     }
 }

@@ -18,30 +18,37 @@ RUN yarn global add log && yarn cache clean
 RUN yarn global add log-node && yarn cache clean
 
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
-ENV PATH="/app:/tools:${PATH}"
+# ENV PATH="/app:/tools:${PATH}"
 
-RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser
+# Group number should match group id and permission settings on host to allow for writing output to host file system.
+# bo@vm5nas01:/volume1/src/docker-puppeteer$ ll -nd data/ test-dataset.json
+# drwxrwxr-x 1 1026 65539    0 Apr 23 14:36 data/
+# -rw-rw-r-- 1 1026 65539 3148 Apr 23 12:00 test-dataset.json
+RUN groupadd -r pptruser -g 65539 && useradd -r -g pptruser -G audio,video pptruser
 
-COPY --chown=pptruser:pptruser ./tools /tools
+# COPY --chown=pptruser:pptruser ./tools /tools
+COPY package*.json ./
 
 
 RUN npm install
 RUN npm install -g nodemon
+RUN npm list
 
+WORKDIR /app
 # Set language to UTF8
 ENV LANG="C.UTF-8"
 
-WORKDIR /app
-COPY package*.json ./
-
 # Add user so we don't need --no-sandbox.
-RUN mkdir /screenshots \
-	&& mkdir -p /home/pptruser/Downloads \
+RUN mkdir -p /home/pptruser/Downloads \
     && chown -R pptruser:pptruser /home/pptruser \
-    && chown -R pptruser:pptruser /usr/local/share/.config/yarn/global/node_modules \
-    && chown -R pptruser:pptruser /screenshots \
     && chown -R pptruser:pptruser /app \
-    && chown -R pptruser:pptruser /tools
+    && chown -R pptruser:pptruser /usr/local/share/.config/yarn/global/node_modules 
+# RUN mkdir /screenshots \
+# 	&& mkdir -p /home/pptruser/Downloads \
+#     && chown -R pptruser:pptruser /home/pptruser \
+#     && chown -R pptruser:pptruser /usr/local/share/.config/yarn/global/node_modules \
+#     && chown -R pptruser:pptruser /screenshots \
+#     && chown -R pptruser:pptruser /tools
 
 # Run everything after as non-privileged user.
 USER pptruser
