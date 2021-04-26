@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t docker-puppeteer:latest .
+docker build $@ -t docker-puppeteer:latest .
