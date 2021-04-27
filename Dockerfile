@@ -27,7 +27,8 @@ ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
 RUN groupadd -r pptruser -g 65539 && useradd -r -g pptruser -G audio,video pptruser
 
 # COPY --chown=pptruser:pptruser ./tools /tools
-COPY package*.json ./
+# Not required if directory is mapped
+# COPY package*.json ./
 
 
 RUN npm install
