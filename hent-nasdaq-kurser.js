@@ -1,8 +1,9 @@
-require("log-node")();
 const log = require("log");
 const puppeteer = require("puppeteer");
 var mysql = require('mysql');
 var config = require('./config');
+const randomUseragent = require('random-useragent');
+
 // ensure user and group can read and write database created.
 const newmask = 0o000;
 const oldmask = process.umask(newmask);
@@ -71,9 +72,8 @@ function Sleep(n) {
                 console.log("Using HTTP UserAgent: " + (url.useragent || config.defaultuseragent));
                 await page.setUserAgent(url.useragent || config.defaultuseragent);
             }
-
             // open url
-            await page.goto(url, {
+            await page.goto(url.URL_adresse, {
                 waitUntil: "domcontentloaded",
                 timeout: url.timeout || config.defaulttimeout || 0,
             });
@@ -90,8 +90,8 @@ function Sleep(n) {
             try {
                 console.log("waitforselector: ", url.selector);
                 content = await page.waitForSelector(url.selector, (el) => el.textContent);
-                content = "50.5"
-                console.log("got it: " + content);
+                // content = "50.5"
+                // console.log("got it: " + content);
                 await connection.query("INSERT INTO Kurser VALUES(?, ?, ?, ?, ?, ?, ?)", [url.URL_ID, url.URL_beskrivelse, url.URL_adresse, Date_toISOStringLocal(today), Time_toISOStringLocal(today), content, null]);
 
                 content = await page.$eval(contentSelector1, (el) => el.textContent);
@@ -104,8 +104,10 @@ function Sleep(n) {
                 );
             }
         } catch (err) {
-
+            console.log("An error occurred: " + err);
         }
+        debugger;
+
     };
     
     console.log("Closing Puppeteer...");
