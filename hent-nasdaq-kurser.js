@@ -32,7 +32,6 @@ function Sleep(n) {
     var errors = [];
     const datafile = config.datafile || "datafile-" + datetimestr;
     process.env.LOG_LEVEL = config.loglevel;
-    console.log("log level" + process.env.LOG_LEVEL);
 
 
     // Load existing Kurser or create a new'
@@ -47,7 +46,7 @@ function Sleep(n) {
     try {
         await connection.query("USE Hent_Nasdaq_kurser;");
         await connection.query("DROP TABLE IF EXISTS Kurser;");
-        await connection.query("CREATE TABLE Kurser (`URL ID` text NOT NULL, `URL beskrivelse` text NOT NULL, `URL adresse` text NOT NULL, `Dato` date NOT NULL, `Tid` time NOT NULL, `Kurs` decimal(5,2), `Fejl` mediumblob );");
+        await connection.query("CREATE TABLE Kurser (`URL ID` text NOT NULL, `URL beskrivelse` text NOT NULL, `URL adresse` text NOT NULL, `Dato` date NOT NULL, `Tid` time NOT NULL, `Kurs` decimal(5,2), `Fejl` text );");
         // await connection.query("INSERT INTO Kurser VALUES ('XCSE05NYK01EA53', 'Nasdaq Nykredit 0,5%', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE05NYK01EA53', '20210423', '00:33', '95.4', '');");
     } catch (error) {
         debugger;
@@ -68,10 +67,10 @@ function Sleep(n) {
     for (const url of config.urls) {
         try {
             console.log("url: " + JSON.stringify(url));
-            if (url.useragent || config.defaultuseragent) {
-                console.log("Using HTTP UserAgent: " + (url.useragent || config.defaultuseragent));
-                await page.setUserAgent(url.useragent || config.defaultuseragent);
-            }
+            const useragent = (url.useragent || config.defaultuseragent || randomUseragent.getRandom());
+            console.log("Using HTTP UserAgent: " +  useragent);
+            await page.setUserAgent(useragent);
+
             // open url
             await page.goto(url.URL_adresse, {
                 waitUntil: "domcontentloaded",
@@ -82,7 +81,7 @@ function Sleep(n) {
             var sleep = url.sleep || 0;
             console.log("Sleeping %s seconds ...", sleep);
             // wait xxxx seconds (for dynamic content)
-            await sleep(sleep);
+            await Sleep(sleep);
 
             // Get data for url
             let content = null;
@@ -92,27 +91,43 @@ function Sleep(n) {
                 content = await page.waitForSelector(url.selector, (el) => el.textContent);
                 // content = "50.5"
                 // console.log("got it: " + content);
+                //TODO cleanup when done testing.
                 await connection.query("INSERT INTO Kurser VALUES(?, ?, ?, ?, ?, ?, ?)", [url.URL_ID, url.URL_beskrivelse, url.URL_adresse, Date_toISOStringLocal(today), Time_toISOStringLocal(today), content, null]);
-
-                content = await page.$eval(contentSelector1, (el) => el.textContent);
             } catch (e) {
-                console.error("an eror occured");
-                errors.push(e + "\r\n");
-                await connection.query("INSERT INTO Kurser VALUES(?, ?, ?, ?, ?, ?, ?)", [url.URL_ID, url.URL_beskrivelse, url.URL_adresse, Date_toISOStringLocal(today), Time_toISOStringLocal(today), null, e]);
-                throw new Error(
-                    "Cannot get content (content selector is probably wrong)"
-                );
+                console.error("Cannot get content (content selector is probably wrong)");
+                console.log(e);
+                debugger;
+                //BUG error object cannot be written to SQL without escaping.
+                /* 
+TimeoutError: waiting for selector `#dxb-p-avista-table > tbody > tr > td.db-a-lsp` failed: timeout 30000ms exceeded  │        modified:   config.json
+    at new WaitTask (/node_modules/puppeteer/lib/cjs/puppeteer/common/DOMWorld.js:482:34)                             │        modified:   hent-nasdaq-kurser.js
+    at DOMWorld.waitForSelectorInPage (/node_modules/puppeteer/lib/cjs/puppeteer/common/DOMWorld.js:415:26)           │        modified:   package.json
+    at Object.internalHandler.waitFor (/node_modules/puppeteer/lib/cjs/puppeteer/common/QueryHandler.js:31:77)        │        modified:   sh/run.sh
+    at DOMWorld.waitForSelector (/node_modules/puppeteer/lib/cjs/puppeteer/common/DOMWorld.js:313:29)                 │
+    at Frame.waitForSelector (/node_modules/puppeteer/lib/cjs/puppeteer/common/FrameManager.js:842:51)                │Untracked files:
+    at Page.waitForSelector (/node_modules/puppeteer/lib/cjs/puppeteer/common/Page.js:1285:33)                        │  (use "git add <file>..." to include in what will be committed)
+    at /app/hent-nasdaq-kurser.js:91:38                                                                               │        '
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)                                               │        test-dataset.json
+
+    
+      sql: "INSERT INTO Kurser VALUES('XCSE1NYK01EA53', 'Nasdaq Nykredit 1% obligationslån 30 årig fast rente', 'http://ww│ mode change 100644 => 100755 sh/build.sh
+w.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE1NYK01EA53', '2021-04-27', '24:53:21', `_disposed` = fals│ mode change 100644 => 100755 sh/run.sh
+e, `_context` = '[object Object]', `_client` = '[object Object]', `_remoteObject` = '[object Object]', `_page` = '[obj│ delete mode 100644 test-dataset.json
+ect Object]', `_frameManager` = '[object Object]', NULL)"                                                             │ delete mode 100644 tmp.js
+}                                                                                                                     │bo@vm5nas01:/volume1/src/docker-puppeteer$ git push
+
+                */
+                await connection.query("INSERT INTO Kurser VALUES(?, ?, ?, ?, ?, ?, ?)", [url.URL_ID, url.URL_beskrivelse, url.URL_adresse, Date_toISOStringLocal(today), Time_toISOStringLocal(today), null, JSON.stringify(e)]);
             }
         } catch (err) {
             console.log("An error occurred: " + err);
         }
-        debugger;
 
     };
-    
+
     console.log("Closing Puppeteer...");
     await browser.close();
     console.log("Done.");
-    
+
     connection.end();
 })();
