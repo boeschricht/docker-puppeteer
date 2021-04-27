@@ -6,10 +6,10 @@
     },
     "license": "GPL-3.0-or-later",
     "dependencies": {
-        "alasql": "latest"
+        "mysql": "2.18.1"
     },
     "engines": {},
     "scripts": {
-        "start": "node --inspect-brk=0.0.0.0 hent-nasdaq-kurser.js"
+        "start": "node --inspect=0.0.0.0 hent-nasdaq-kurser.js"
     }
 }

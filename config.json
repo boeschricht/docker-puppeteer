@@ -5,7 +5,7 @@
             "URL_ID": "XCSE05NYK01EA53",
             "URL_beskrivelse": "Nasdaq Nykredit 0,5% obligationslån 30 årig fast rente",
             "URL_adresse": "http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE05NYK01EA53",
-            "selector": "#db-p-avista-table > tbody > tr > td.db-a-lsp",
+            "selector": "#dxb-p-avista-table > tbody > tr > td.db-a-lsp",
             "timeout": "",
             "useragent": "",
             "sleep": ""

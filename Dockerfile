@@ -32,6 +32,7 @@ COPY package*.json ./
 
 RUN npm install
 RUN npm install -g nodemon
+RUN npm install mysql
 RUN npm list
 
 WORKDIR /app
@@ -55,7 +56,7 @@ USER pptruser
 
 # --cap-add=SYS_ADMIN
 # https://docs.docker.com/engine/reference/run/#additional-groups
-EXPOSE 3000
+EXPOSE 3000 3307
 
 ENTRYPOINT ["dumb-init", "--"]
 
