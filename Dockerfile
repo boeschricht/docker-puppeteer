@@ -27,12 +27,12 @@ ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
 RUN groupadd -r pptruser -g 65539 && useradd -r -g pptruser -G audio,video pptruser
 
 # COPY --chown=pptruser:pptruser ./tools /tools
-# Not required if directory is mapped
-# COPY package*.json ./
+COPY package*.json ./
 
 
 RUN npm install
 RUN npm install -g nodemon
+RUN npm install random-useragent
 RUN npm install mysql
 RUN npm list
 

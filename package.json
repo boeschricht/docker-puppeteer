@@ -6,7 +6,10 @@
     },
     "license": "GPL-3.0-or-later",
     "dependencies": {
-        "mysql": "2.18.1"
+        "log":"6.0.0",
+        "mysql": "2.18.1",
+        "puppeteer": "5.4.1",
+        "random-useragent":"0.5.0"
     },
     "engines": {},
     "scripts": {
