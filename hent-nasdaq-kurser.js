@@ -69,31 +69,83 @@ function Sleep(n) {
         // Output nice chart
 
         // contruct data
-        connection.connect();
+        var datasets = [];
         try {
-            await connection.query("USE Hent_Nasdaq_kurser");
-            connection.query(
-                'SELECT `URL beskrivelse` FROM `Kurser` group by `URL beskrivelse`',
-                function(error, results, fields) {
-                    debugger;
-                    assert(!error);
-                }
-            )
+            // connection.query("USE Hent_Nasdaq_kurser");
+            // connection.query(
+            //     'SELECT `URL beskrivelse` FROM `Kurser` group by `URL beskrivelse`',
+            //     function (error, results, fields) {
+            //         if (error) throw error;
+            //         for (const row of results) {
+            //             var tmpDataset = [];
+            //             connection.query(
+            //                 'SELECT `URL beskrivelse` FROM `Kurser` group by `URL beskrivelse`',
+            //                 function (error, results, fields) {
+            //                     if (error) throw error;
+
+
+            //                 }
+            //         debugger;
+            //         }
+            // )
+         // TODO construct labels
+        // TODO send chart
+        debugger;
+        var _html = "<canvas id = 'myChart' width = '400' height = '400' ></canvas >" + 
+            "<script>" + 
+        "var ctx = document.getElementById('myChart');" +
+        "var myChart = new Chart(ctx, {" +
+            "type: 'line'," +
+            "data: {" +
+                "labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']," +
+                "datasets: [{" +
+                    "label: '# of Votes'," +
+                    "data: [12, 19, 3, 5, 2, 3]," +
+                    "backgroundColor: [" +
+                        "'rgba(255, 99, 132, 0.2)'," +
+                        "'rgba(54, 162, 235, 0.2)'," +
+                        "'rgba(255, 206, 86, 0.2)'," +
+                        "'rgba(75, 192, 192, 0.2)'," +
+                        "'rgba(153, 102, 255, 0.2)'," +
+                        "'rgba(255, 159, 64, 0.2)'" +
+                    "]," +
+                    "borderColor: [" +
+                        "'rgba(255, 99, 132, 1)'," +
+                        "'rgba(54, 162, 235, 1)'," +
+                        "'rgba(255, 206, 86, 1)'," +
+                        "'rgba(75, 192, 192, 1)'," +
+                        "'rgba(153, 102, 255, 1)'," +
+                        "'rgba(255, 159, 64, 1)'" +
+                    "]," +
+                    "borderWidth: 1" +
+                "}]" +
+            "}," +
+            "options: {" +
+                "scales: {" +
+                    "y: {" +
+                        "beginAtZero: true" +
+                    "}" +
+                "}" +
+            "}" +
+        "});" 
+            debugger;
+            //BUG no HTML is shown on webpage. HTML is missing script end tag, maybe others.
+            res.send(_html);
         } catch (error) {
             console.log('Error fetching chart data:', error);
         }
-
-        // TODO construct labels
-        // TODO send chart
     })
-    //TODO Change HTTP port to 80
-    app.listen(3000)
 
+    // Start server
+    //TODO Change HTTP port to 80 in config.json
+    var server = app.listen(config.HTTPPort, function () {
+        var host = server.address().address
+        var port = server.address().port
+        console.log("Example app listening at http://%s:%s", host, port)
+    })
 
     // await RunPuppeteer();
 
-    console.log("Done.");
-    connection.end();
 })();
 
 async function RunPuppeteer() {
@@ -153,14 +205,14 @@ TimeoutError: waiting for selector `#dxb-p-avista-table > tbody > tr > td.db-a-l
     at Page.waitForSelector (/node_modules/puppeteer/lib/cjs/puppeteer/common/Page.js:1285:33)                        │  (use "git add <file>..." to include in what will be committed)
     at /app/hent-nasdaq-kurser.js:91:38                                                                               │        '
     at processTicksAndRejections (internal/process/task_queues.js:97:5)                                               │        test-dataset.json
-
+ 
     
       sql: "INSERT INTO Kurser VALUES('XCSE1NYK01EA53', 'Nasdaq Nykredit 1% obligationslån 30 årig fast rente', 'http://ww│ mode change 100644 => 100755 sh/build.sh
 w.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE1NYK01EA53', '2021-04-27', '24:53:21', `_disposed` = fals│ mode change 100644 => 100755 sh/run.sh
 e, `_context` = '[object Object]', `_client` = '[object Object]', `_remoteObject` = '[object Object]', `_page` = '[obj│ delete mode 100644 test-dataset.json
 ect Object]', `_frameManager` = '[object Object]', NULL)"                                                             │ delete mode 100644 tmp.js
 }                                                                                                                     │bo@vm5nas01:/volume1/src/docker-puppeteer$ git push
-
+ 
                 */
                 //TODO store value for e to db 
                 // await connection.query("INSERT INTO Kurser VALUES(?, ?, ?, ?, ?, ?, ?)", [url.URL_ID, url.URL_beskrivelse, url.URL_adresse, Date_toISOStringLocal(today), Time_toISOStringLocal(today), null, {e}]);

@@ -1,0 +1,10 @@
+DELETE FROM Kurser;
+INSERT INTO Kurser VALUES ('XCSE05NYK01EA53', 'Nasdaq Nykredit 0,5% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE05NYK01EA53', '20210423', '00:33', '95.4', '');
+INSERT INTO Kurser VALUES ('XCSE05NYK01EA53', 'Nasdaq Nykredit 0,5% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE05NYK01EA53', '20210424', '12:23', '96.5', '');
+INSERT INTO Kurser VALUES ('XCSE05NYK01EA53', 'Nasdaq Nykredit 0,5% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE05NYK01EA53', '20210425', '14:26', '98.4', '');
+INSERT INTO Kurser VALUES ('XCSE1NYK01EA53', 'Nasdaq Nykredit 1% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE1NYK01EA53', '20210423', '14:26', '98.4', '');
+INSERT INTO Kurser VALUES ('XCSE1NYK01EA53', 'Nasdaq Nykredit 1% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE1NYK01EA53', '20210424', '16:26', '95.4', '');
+INSERT INTO Kurser VALUES ('XCSE1NYK01EA53', 'Nasdaq Nykredit 1% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE1NYK01EA53', '20210425', '18:26', '93.4', '');
+INSERT INTO Kurser VALUES ('XCSE15NYK01EDA53', 'Nasdaq Nykredit 1,5% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE15NYK01EDA53', '20210423', '10:00', '99.5', '');
+INSERT INTO Kurser VALUES ('XCSE15NYK01EDA53', 'Nasdaq Nykredit 1,5% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE15NYK01EDA53', '20210424', '12:00', '99.3', '');
+INSERT INTO Kurser VALUES ('XCSE15NYK01EDA53', 'Nasdaq Nykredit 1,5% obligationslån 30 årig fast rente', 'http://www.nasdaqomxnordic.com/bonds/denmark/microsite?Instrument=XCSE15NYK01EDA53', '20210425', '14:00', '99.1', '');

@@ -4,6 +4,7 @@
     "mariaDBuser": "appuser1",
     "mariaDBpassword": "lR2[jPwJc1",
     "mariaDBdatabase": "Hent_Nasdaq_kurser",
+    "HTTPPort": 3000,
     "urls": [
         {
             "URL_ID": "XCSE05NYK01EA53",
