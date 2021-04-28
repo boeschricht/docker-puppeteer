@@ -34,6 +34,9 @@ RUN npm install
 RUN npm install -g nodemon
 RUN npm install random-useragent
 RUN npm install mysql
+RUN npm install node-schedule
+RUN npm install express
+RUN npm install chart.js
 RUN npm list
 
 WORKDIR /app

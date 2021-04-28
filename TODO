@@ -1,4 +1,12 @@
-
 Todo:
-  ☐ Export to Excel
+  ☐ Add Express web server for 
+    ☐ Serving raw data: /data
+    ☐ Display Chart /chart
+      ☐ Express
+      ☐ React
+      ☐ 
+    ☐ excel download /excel
+  ☐ Add scheduling
+    ☐ Simple, every 2 hours 
   ☐ Send mail with Excel attachment regularly?
+  ☐ Ensure container starts when NAS start
